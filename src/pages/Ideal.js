@@ -46,6 +46,7 @@ export default function Ideal(){
                                         height="100%"
                                         muted
                                         playing
+                                        playsinline
                                         loop
                                         />
                                 </CoverVideoStyle>
