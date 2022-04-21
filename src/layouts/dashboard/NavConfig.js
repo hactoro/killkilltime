@@ -23,7 +23,7 @@ const navConfig = [
   },
   {
     title: '이상형월드컵',
-    path: '/dashboard/blog',
+    path: '/dashboard/Ideal',
     icon: getIcon('eva:file-text-fill'),
   },
   {

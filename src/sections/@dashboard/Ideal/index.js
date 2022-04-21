@@ -1,0 +1,1 @@
+export { default as IdealVs} from './IdealVs';
