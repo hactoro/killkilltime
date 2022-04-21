@@ -2,7 +2,10 @@ import {Stack, Container, Grid, Typography, Card, CardContent, Link} from '@mui/
 import {styled} from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import IdealCard from '../sections/@dashboard/Ideal/IdealCard';
 import Page from '../components/Page';
+import ideals from '../_mock/ideal';
+
 
 
 
@@ -34,47 +37,13 @@ export default function Ideal(){
     return(
         <Page title="이상형 월드컵">
             <Container>
-          
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={3} sx={{textAlign:"center"}}>
-                        <Card>
-                            <CardMediaStyle>
-                                <CoverVideoStyle>
-                                    <ReactPlayer 
-                                        url={cover} 
-                                        width="100%"
-                                        height="100%"
-                                        muted
-                                        playing
-                                        playsinline
-                                        loop
-                                        />
-                                </CoverVideoStyle>
-                                
-                            </CardMediaStyle>
-                            <CardContent>
-                                <Typography gutterBottom variant="caption" sx={{color: 'text.disabled', display: 'block'}}>
-                                    그래~ 안녕!
-                                </Typography>
-                                <TitleStyle
-                                    to="/dashboard/ideal/10000"
-                                    color="inherit"
-                                    variant='subtitle2'
-                                    underline='hover'
-                                    component={RouterLink}
-                                >
-                                    hello
-                                </TitleStyle>
-                        
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        굿모닝!
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        좋은아침!
-                    </Grid>
+                <Grid container spacing={1}>
+                    {ideals.map((item, index)=>{
+                        return(
+                            <Grid item xs={12} md={3}>
+                                <IdealCard title={item.title} videoSrc={item.videoSrc} pageId={item.pageId} />
+                            </Grid>)
+                    })}
                 </Grid>
             </Container>
         </Page>
