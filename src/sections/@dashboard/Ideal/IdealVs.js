@@ -84,16 +84,23 @@ export default function IdelaVs(){
 
     const roundUpHandler = (e) => {
 
-        if(nextRound.current === 1){
-            // game end
-            // go winner page
-            alert(`winner is ${players[e.target.className[0]].name}`);
-            return;
-        }
-        setWinners([
-            ...winners,
-            players[e.target.className[0]]
-        ]);
+        setTimeout(()=>{
+            if(nextRound.current === 1){
+                // game end
+                // go winner page
+                alert(`winner is ${players[e.target.className[0]].name}`);
+                return;
+            }
+            setWinners([
+                ...winners,
+                players[e.target.className[0]]
+            ]);
+
+
+        },300)
+        
+
+        
         
     }
 
@@ -104,7 +111,7 @@ export default function IdelaVs(){
             <Stack direction="row" alignItems="center" justifyContent="center" >
                 {players.map((item, index)=>{
                     return(
-                        <Card onClick={roundUpHandler}>
+                        <Card key={index} onClick={roundUpHandler}>
                             <CardMediaStyle>
                                 {/* <video 
                                     width="100%" 
