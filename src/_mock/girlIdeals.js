@@ -16,6 +16,22 @@ const girlIdeals = [
         src: "https://thumbs.gfycat.com/CanineUnnaturalAustraliancurlew-mobile.mp4",
         name: "다현"
 
+    },
+    {
+        src: "https://thumbs.gfycat.com/UnconsciousDependentAdder-mobile.mp4",
+        name: "카리나"
+    },
+    {   
+        src: "https://thumbs.gfycat.com/GrotesqueDisastrousHoneybee-mobile.mp4",
+        name: "윈터"
+    },
+    {
+        src: "https://thumbs.gfycat.com/AstonishingBlankAxisdeer-mobile.mp4",
+        name: "EXID-하니"
+    },
+    {
+        src: "https://thumbs.gfycat.com/AdvancedAppropriateKiwi-mobile.mp4",
+        name: "권나라"
     }
 ]
 

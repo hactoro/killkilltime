@@ -29,7 +29,7 @@ export default function IdelaVs(){
         textAlign: 'center'
     })
 
-    const startRound = 4; 
+    const startRound = 8; 
     const nextRound = useRef((startRound/2));
     const offset = useRef(0);
     const isFirst = useRef(true);
@@ -50,7 +50,9 @@ export default function IdelaVs(){
         if( (nextRound.current !== 1) && (winners.length >= nextRound.current)){
             const toNext = nextRound.current / 2;
             nextRound.current = toNext;
+       
             setItems(winners);
+            setWinners([]);
         }else{
 
             const toOffset = offset.current + 2;
@@ -70,8 +72,8 @@ export default function IdelaVs(){
             isFirst2.current = false;
             return;
         }
-        offset.current = 0;
 
+        offset.current = 0;
         setPlayers(
             [
                 items[offset.current],
@@ -104,7 +106,7 @@ export default function IdelaVs(){
                     return(
                         <Card onClick={roundUpHandler}>
                             <CardMediaStyle>
-                                <video 
+                                {/* <video 
                                     width="100%" 
                                     height="100%"
                                     muted
@@ -112,7 +114,16 @@ export default function IdelaVs(){
                                     loop
                                     playinline >
                                     <source src={item.src} />
-                                </video>
+                                </video> */}
+                                <ReactPlayer
+                                    url={item.src}
+                                    width="100%"
+                                    height="100%"
+                                    muted
+                                    playing
+                                    playsinline
+                                    loop
+                                />
                                 <VideoCover className={index}>
                                     imageCover
                                 </VideoCover>
