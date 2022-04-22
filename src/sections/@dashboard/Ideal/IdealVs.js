@@ -97,8 +97,9 @@ export default function IdelaVs(){
 
     return(
 
-        <Container sx={{border:"1px solid black"}}>
-            <Stack direction="row" alignItems="center" justifyContent="center" stretch sx={{border:"1px solid black"}}>
+        <Container>
+            {nextRound.current * 2}강
+            <Stack direction="row" alignItems="center" justifyContent="center" >
                 {players.map((item, index)=>{
                     return(
                         <Card onClick={roundUpHandler}>
