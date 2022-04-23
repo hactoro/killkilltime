@@ -1,8 +1,9 @@
 import React,{useState, useRef, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
-import { Stack, Box, Container, Card, CardContent } from '@mui/material';
+import { Stack, Box, Container, Card, CardContent, LinearProgress  } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import ReactPlayer from 'react-player';
+import useEffect2 from '../../../hooks/useEffect2';
 import girlIdeals from '../../../_mock/girlIdeals';
 
 export default function IdelaVs(){
@@ -32,20 +33,16 @@ export default function IdelaVs(){
     const startRound = 8; 
     const nextRound = useRef((startRound/2));
     const offset = useRef(0);
-    const isFirst = useRef(true);
-    const isFirst2 = useRef(true);
-
+    const steps = useRef(0);
 
     const [items, setItems] = useState(girlIdeals);
     const [winners, setWinners] = useState([]);
     const [players, setPlayers] = useState([items[offset.current], items[offset.current+1]]);
+    const [progress, setProgress] = useState(0);
     
-    useEffect(()=>{
 
-        if(isFirst.current) {
-            isFirst.current = false;
-            return;
-        } 
+
+    useEffect2(()=>{
 
         if( (nextRound.current !== 1) && (winners.length >= nextRound.current)){
             const toNext = nextRound.current / 2;
@@ -66,12 +63,7 @@ export default function IdelaVs(){
         }
     },[winners])
 
-    useEffect(()=>{
-
-        if(isFirst2.current) {
-            isFirst2.current = false;
-            return;
-        }
+    useEffect2(()=>{
 
         offset.current = 0;
         setPlayers(
@@ -80,7 +72,8 @@ export default function IdelaVs(){
                 items[offset.current+1]
             ]
         )
-    },[items])
+    },[items]);
+
 
     const roundUpHandler = (e) => {
 
@@ -95,33 +88,33 @@ export default function IdelaVs(){
                 ...winners,
                 players[e.target.className[0]]
             ]);
-
-
+            if((steps.current + 1) === nextRound.current){
+                steps.current = 0;
+                setProgress(0);
+            }else{
+                const nextSteps = steps.current + 1;
+                steps.current = nextSteps;
+                const currentProgress = (steps.current / ( nextRound.current )) * 100 ;
+                setProgress(currentProgress);
+            }
         },300)
-        
-
-        
-        
     }
 
     return(
 
         <Container>
-            {nextRound.current * 2}강
+            <Stack direction="column" alignItems="center" justifyContent="center">
+                {nextRound.current * 2}강
+                <Box sx={{width:"100%", marginBottom:"2%"}}>
+                    <LinearProgress variant="determinate" value={progress} />
+                </Box>
+
+            </Stack>
             <Stack direction="row" alignItems="center" justifyContent="center" >
                 {players.map((item, index)=>{
                     return(
-                        <Card key={index} onClick={roundUpHandler}>
+                        <Card key={index} onClick={roundUpHandler} sx={{width:"50%"}}>
                             <CardMediaStyle>
-                                {/* <video 
-                                    width="100%" 
-                                    height="100%"
-                                    muted
-                                    autoPlay
-                                    loop
-                                    playinline >
-                                    <source src={item.src} />
-                                </video> */}
                                 <ReactPlayer
                                     url={item.src}
                                     width="100%"
@@ -141,39 +134,8 @@ export default function IdelaVs(){
                                 </TitleStyle>
                             </CardContent>
                         </Card>
-                
                     )
                 })}
-        
-                {/* <Box component="div" sx={{width:"50%", border:"1px solid black", position:"relative"}}>
-                    <ReactPlayer
-                        url={"https://thumbs.gfycat.com/ScentedLividGoral-mobile.mp4"}
-                        width="100%"
-                        height="100%"
-                        muted
-                        playing
-                        playsinline
-                        loop
-                    />
-                    <Box component="div">
-                        사나
-                    </Box>
-                </Box>
-   
-                <Box component="div" sx={{width:"50%", border:"1px solid black"}}>
-                    <ReactPlayer
-                            url={"https://thumbs.gfycat.com/VariableShortGoral-mobile.mp4"}
-                            width="100%"
-                            height="100%"
-                            muted
-                            playing
-                            playsinline
-                            loop
-                        />
-                        <Box component="div">
-                            아이유
-                        </Box>
-                </Box> */}
             </Stack>
         </Container>
     )
