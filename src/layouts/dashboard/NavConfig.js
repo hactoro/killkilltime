@@ -9,7 +9,7 @@ const navConfig = [
   {
     title: 'MBTI',
     path: '/dashboard/app',
-    icon: getIcon('eva:pie-chart-2-fill'),
+    icon: getIcon('carbon:document-sentiment'),
   },
   // {
   //   title: 'user',
@@ -19,12 +19,12 @@ const navConfig = [
   {
     title: '퀴즈',
     path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
+    icon: getIcon('ic:outline-quiz'),
   },
   {
     title: '이상형월드컵',
     path: '/dashboard/Ideal',
-    icon: getIcon('eva:file-text-fill'),
+    icon: getIcon('maki:racetrack'),
   },
   {
     title: '로그인',
@@ -35,7 +35,7 @@ const navConfig = [
     title: '가입',
     path: '/register',
     icon: getIcon('eva:person-add-fill'),
-  },
+  }
   // {
   //   title: 'Not found',
   //   path: '/404',

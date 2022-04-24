@@ -41,7 +41,7 @@ export default function Ideal(){
                     {ideals.map((item, index)=>{
                         return(
                             <Grid item xs={12} md={3}>
-                                <IdealCard title={item.title} videoSrc={item.videoSrc} pageId={item.pageId} />
+                                <IdealCard title={item.title} videoSrc={item.videoSrc} category={item.category} />
                             </Grid>)
                     })}
                 </Grid>

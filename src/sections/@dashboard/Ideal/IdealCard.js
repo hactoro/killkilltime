@@ -5,7 +5,7 @@ import {Link as RouterLink} from 'react-router-dom';
 
 export default function IdealCard(props){
 
-    const {title, content, videoSrc, pageId} = props;
+    const {title, content, videoSrc, category} = props;
 
     const CardMediaStyle = styled('div')({
         position: 'relative',
@@ -44,7 +44,7 @@ export default function IdealCard(props){
             </CardMediaStyle>
             <CardContent>
             <TitleStyle
-                to={`/dashboard/ideal/${pageId}`}
+                to={`/dashboard/ideal/${category}`}
                 color="inherit"
                 variant='subtitle2'
                 underline='hover'
