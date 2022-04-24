@@ -150,7 +150,7 @@ export default function IdelaVs(){
     
     const gameStartHandler = async(e) => {
         try{
-            const ret = await axios.get(`http://localhost:5002/admin/contents/race/${startRound}`);
+            const ret = await axios.get(`/admin/contents/race/${startRound}`);
             setItems(ret.data.candidates);
             setNextRound((startRound/2));
             
@@ -188,15 +188,15 @@ export default function IdelaVs(){
                                                 playsinline
                                                 loop
                                             />
-                                            <VideoCover className={index}>
-                                                imageCover
-                                            </VideoCover>
                                         </CardMediaStyle>
                                         <CardContent>
                                             <TitleStyle >                            
                                                 {item.name}
                                             </TitleStyle>
                                         </CardContent>
+                                        <VideoCover className={index}>
+                                            imageCover
+                                        </VideoCover>
                                     </Card>
                                 )
                             })}
