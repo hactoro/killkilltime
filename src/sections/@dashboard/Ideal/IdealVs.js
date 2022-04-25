@@ -113,7 +113,8 @@ export default function IdelaVs(){
     
     const gameStartHandler = async(e) => {
         try{
-            const ret = await axios.get(`/admin/contents/race/${startRound}`);
+            const ret = await axios.get(`/admin/contents/race/?categoryId=${id}&limit=${startRound}`);
+            console.log(ret)
             setItems(ret.data.candidates);
             setNextRound((startRound/2));
             
