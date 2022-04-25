@@ -6,7 +6,6 @@ import SendIcon from '@mui/icons-material/Send';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
 import useEffect2 from '../../../hooks/useEffect2';
-import girlIdeals from '../../../_mock/girlIdeals';
 
 export default function IdelaVs(){
 
@@ -41,7 +40,6 @@ export default function IdelaVs(){
     const steps = useRef(0);
     
     const [startRound, setStartRound] = useState(16);
-    // const nextRound = useRef((startRound/2));
     const [nextRound, setNextRound] = useState(0);
     const [items, setItems] = useState([]);
     const [winners, setWinners] = useState([]);
@@ -49,29 +47,18 @@ export default function IdelaVs(){
     const [progress, setProgress] = useState(0);
     const [isRoundStart, setIsRoundStart] = useState(false);
     
-    // useEffect(()=>{
-    //     const 
-
-    // }, [])
-
-
     useEffect2(()=>{
 
         if( (nextRound !== 1) && (winners.length >= nextRound)){
             // const toNext = nextRound.current / 2;
             // nextRound.current = toNext;
             setNextRound( nextRound / 2)
-            console.log("winners");
-            console.log(winners);
             setItems(winners);
             setWinners([]);
         }else{
 
             const toOffset = offset.current + 2;
             offset.current = toOffset;
-            console.log("players select")
-            console.log(items[offset.current])
-            console.log(items[offset.current+1])
             setPlayers(
                 [
                     items[offset.current],
@@ -82,8 +69,6 @@ export default function IdelaVs(){
     },[winners])
 
     useEffect2(()=>{
-        console.log(items);
-        console.log(items)
         offset.current = 0;
         setPlayers(
             [
@@ -98,28 +83,6 @@ export default function IdelaVs(){
     },[nextRound])
 
     const roundUpHandler = (e) => {
-
-        // setTimeout(()=>{
-        //     if(nextRound === 1){
-        //         // game end
-        //         // go winner page
-        //         alert(`winner is ${players[e.target.className[0]].name}`);
-        //         return;
-        //     }
-        //     setWinners([
-        //         ...winners,
-        //         players[e.target.className[0]]
-        //     ]);
-        //     if((steps.current + 1) === nextRound){
-        //         steps.current = 0;
-        //         setProgress(0);
-        //     }else{
-        //         const nextSteps = steps.current + 1;
-        //         steps.current = nextSteps;
-        //         const currentProgress = (steps.current / ( nextRound )) * 100 ;
-        //         setProgress(currentProgress);
-        //     }
-        // },300)
     
         if(nextRound === 1){
             // game end
