@@ -54,8 +54,8 @@ export default function IdealCard(props){
 
     const cardActionHandler = (e) => {
 
-        console.log(e.target.value);
-        navigate(`/dashboard/ideal/${e.target.value}`)
+        console.log(e.target.title);
+        navigate(`/dashboard/ideal/${e.target.value}?title=${e.target.title}`)
     }
 
     return(
@@ -108,7 +108,7 @@ export default function IdealCard(props){
             </CardContent>
             <CardActions sx={{position:'relative', justifyContent:"center"}}>
                 <ButtonGroup >
-                    <Button size="small" value={category} onClick={cardActionHandler}>시작</Button>
+                    <Button size="small" value={category} title={title} onClick={cardActionHandler}>시작</Button>
                     <Button size="small">통계</Button>
                     <Button size="small">공유</Button>
                 </ButtonGroup>

@@ -40,9 +40,11 @@ export default function Ideal(){
     
     // getRaceList();
     
+    
     useEffect(async()=>{
         try{
             const ret = await axios.get('/admin/contents/race/racelist');
+            console.log(ret);
             setRaceList(ret.data.raceList);
         }catch(err){
             alert("시스템에 문제가 있습니다. 나중에 접속해주세요.")

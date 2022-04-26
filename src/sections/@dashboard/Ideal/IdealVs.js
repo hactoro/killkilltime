@@ -1,5 +1,5 @@
 import React,{useState, useRef, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Stack, Box, Button, Container, Card, CardContent, LinearProgress, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
@@ -10,6 +10,10 @@ import useEffect2 from '../../../hooks/useEffect2';
 export default function IdelaVs(){
 
     const { id } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    console.log("query string");
+    console.log(searchParams.get('title'));
 
 
     const Div = styled('div')({
@@ -173,7 +177,7 @@ export default function IdelaVs(){
                         <Container maxWidth="sm" >
                             <Stack direction="column" alignItems="center">
                                 <Typography variant="h2" >
-                                    {id} 월드컵
+                                    {searchParams.get('title')} 월드컵
                                 </Typography>
                                 <FormControl fullWidth sx={{marginTop:"20px"}}>
 
