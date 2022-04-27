@@ -12,10 +12,6 @@ export default function IdelaVs(){
     const { id } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
 
-    console.log("query string");
-    console.log(process.env.REACT_APP_KAKAO_KEY);
-
-
     const Div = styled('div')({
         background: "yellow",
     })
@@ -91,6 +87,7 @@ export default function IdelaVs(){
         if(nextRound === 1){
             // game end
             // go winner page
+            setRaceResult.finalWin(players[e.target.className[0]]._id);
             alert(`winner is ${players[e.target.className[0]].name}`);
             return;
         }
@@ -98,6 +95,11 @@ export default function IdelaVs(){
             ...winners,
             players[e.target.className[0]]
         ]);
+
+        setRaceResult.win(players[e.target.className[0]]._id);
+
+ 
+
         if((steps.current + 1) === nextRound){
             steps.current = 0;
             setProgress(0);
@@ -114,7 +116,26 @@ export default function IdelaVs(){
         setStartRound(e.target.value);
     }
     
-    
+    const setRaceResult = {
+        win: (winner)=>{
+            try{
+                axios.patch(`/admin/contents/race/win/${winner}`)
+            }catch(err){
+                console.log(err);
+            }
+        },
+        lose: ()=>{
+            alert("lose");
+        },
+        finalWin: (winner)=>{
+            try{
+                axios.patch(`/admin/contents/race/finalwin/${winner}`)
+            }catch(err){
+                console.log(err)
+            }
+        }
+
+    }
     const gameStartHandler = async(e) => {
         try{
             const ret = await axios.get(`/admin/contents/race/?categoryId=${id}&limit=${startRound}`);
@@ -134,7 +155,12 @@ export default function IdelaVs(){
     
             { isRoundStart?
                 (
-                    <>
+                    <>  
+                        <Stack alignItems="center" justifyContent="center" sx={{marginBottom:"10px"}}>
+                        <Typography variant="h2" >
+                                    {searchParams.get('title')} 월드컵
+                                </Typography>
+                        </Stack>
                         <Stack direction="column" alignItems="center" justifyContent="center">
                         { nextRound === 1 ? "결승" : <>{nextRound * 2 } 강</> }
                         <Box sx={{width:"100%", marginBottom:"2%"}}>
@@ -159,7 +185,7 @@ export default function IdelaVs(){
                                         </CardMediaStyle>
                                         <CardContent>
                                             <TitleStyle >                            
-                                                {item.name}
+                                                {item.name}{item.group ? `(${item.group})`: ''}
                                             </TitleStyle>
                                         </CardContent>
                                         <VideoCover className={index}>

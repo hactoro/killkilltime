@@ -6,11 +6,11 @@ import Iconify from '../../components/Iconify';
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
-  {
-    title: 'MBTI',
-    path: '/app',
-    icon: getIcon('carbon:document-sentiment'),
-  },
+  // {
+  //   title: 'MBTI',
+  //   path: '/app',
+  //   icon: getIcon('carbon:document-sentiment'),
+  // },
   // {
   //   title: 'user',
   //   path: '/dashboard/user',
@@ -26,16 +26,16 @@ const navConfig = [
     path: '/Ideal',
     icon: getIcon('maki:racetrack'),
   },
-  {
-    title: '로그인',
-    path: '/login',
-    icon: getIcon('eva:lock-fill'),
-  },
-  {
-    title: '가입',
-    path: '/register',
-    icon: getIcon('eva:person-add-fill'),
-  }
+  // {
+  //   title: '로그인',
+  //   path: '/login',
+  //   icon: getIcon('eva:lock-fill'),
+  // },
+  // {
+  //   title: '가입',
+  //   path: '/register',
+  //   icon: getIcon('eva:person-add-fill'),
+  // }
   // {
   //   title: 'Not found',
   //   path: '/404',
