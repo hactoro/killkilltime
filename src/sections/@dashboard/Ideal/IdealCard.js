@@ -1,6 +1,7 @@
-import { CardActions, Stack, Typography, Card, CardContent, Link, Button, ButtonGroup, Box, SpeedDial, SpeedDialAction} from '@mui/material';
+import { CardActions, Stack, Typography, Card, CardContent, Link, Button, ButtonGroup, Box, SpeedDial, SpeedDialAction, Menu, MenuItem, SliderThumb, Snackbar} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import ReactPlayer from 'react-player';
+import React, { useState, useEffect } from 'react'; 
 import SendIcon from '@mui/icons-material/Send';
 import ShareIcon from '@mui/icons-material/Share';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
@@ -9,11 +10,12 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 
+import KakaoShareButton from '../../../components/KakaoShareButton'
+
 export default function IdealCard(props){
 
-    const {title, content, videoSrc, category} = props;
+    const {title, content, videoSrc, categoryId} = props;
     const navigate = useNavigate();
-
 
     const actions = [
         // { icon: <FileCopyIcon />, name: 'Copy' },
@@ -53,9 +55,35 @@ export default function IdealCard(props){
     });
 
     const cardActionHandler = (e) => {
+        navigate(`/ideal/${categoryId}?title=${title}`)
+    }
 
-        console.log(e.target.title);
-        navigate(`/dashboard/ideal/${e.target.value}?title=${e.target.title}`)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [infoOpen, setInfoOpen] = useState(false);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const shareKakao = () => {
+        alert("share kakao")
+        setAnchorEl(null);
+    };
+
+    const shareUri = async() => {
+
+        await navigator.clipboard.writeText(`${window.location.href}/${categoryId}?title=${title}`);
+        setInfoOpen(true);
+
+        setAnchorEl(null);
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    }
+    const snackBarCloseHandler = () => {
+        setInfoOpen(false);
     }
 
     return(
@@ -77,42 +105,45 @@ export default function IdealCard(props){
                 <TitleStyle>
                     {title}
                 </TitleStyle>
-                {/* <TitleStyle
-                    to={`/dashboard/ideal/${category}`}
-                    color="inherit"
-                    variant='h6'
-                    underline='hover'
-                    
-                    component={RouterLink}
-                >
-                    {title}
-                </TitleStyle> */}
-                {/* <Box sx={{ height: 40, transform: 'translateZ(0px)', flexGrow: 1 }}>
-                    <SpeedDial
-                        ariaLabel="SpeedDial"
-                        sx={{ position: 'relative'}}
-                        icon={<SpeedDialIcon 
-                            fontSize="small"/>}
-                        direction="left"
-                        
-                    >
-                        {actions.map((action) => (
-                        <SpeedDialAction
-                            key={action.name}
-                            icon={action.icon}
-                            tooltipTitle={action.name}
-                        />
-                        ))}
-                    </SpeedDial>
-                </Box> */}
             </CardContent>
             <CardActions sx={{position:'relative', justifyContent:"center"}}>
                 <ButtonGroup >
-                    <Button size="small" value={category} title={title} onClick={cardActionHandler}>시작</Button>
+                    <Button size="small" onClick={cardActionHandler}>시작</Button>
                     <Button size="small">통계</Button>
-                    <Button size="small">공유</Button>
+                    <Button 
+                        id="share-button"
+                        aria-controls={open ? 'share-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                        size="small">공유
+                    </Button>
                 </ButtonGroup>
+                <Menu
+                    id='share-menu'
+                    anchorEl={anchorEl}
+                    anchorOrigin={{vertical:'top'}}
+                    transformOrigin={{vertical:"bottom"}}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button'
+                        
+                    }}
+                    sx={{width:"200px"}}
+
+                >
+                <MenuItem name="source" onClick={shareUri}>주소복사</MenuItem>
+                <MenuItem name="kakao" onClick={shareKakao}><KakaoShareButton contentTitle={title} url={`${window.location.href}/${categoryId}?title=${title}`} imgSrc={'img/kakaotalk.png'} /></MenuItem>
+                  </Menu>
             </CardActions>
+            <Snackbar
+                anchorOrigin={{vertical:'bottom',horizontal:'right'}}
+                open={infoOpen}
+                autoHideDuration={1500}
+                message="복사완료!"
+                onClose={snackBarCloseHandler}
+            />
         </Card>
 
     )

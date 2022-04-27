@@ -8,7 +8,7 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 const navConfig = [
   {
     title: 'MBTI',
-    path: '/dashboard/app',
+    path: '/app',
     icon: getIcon('carbon:document-sentiment'),
   },
   // {
@@ -18,12 +18,12 @@ const navConfig = [
   // },
   {
     title: '퀴즈',
-    path: '/dashboard/products',
+    path: '/products',
     icon: getIcon('ic:outline-quiz'),
   },
   {
     title: '이상형월드컵',
-    path: '/dashboard/Ideal',
+    path: '/Ideal',
     icon: getIcon('maki:racetrack'),
   },
   {
