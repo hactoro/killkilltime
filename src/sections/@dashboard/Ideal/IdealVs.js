@@ -13,7 +13,7 @@ export default function IdelaVs(){
     const [searchParams, setSearchParams] = useSearchParams();
 
     console.log("query string");
-    console.log(searchParams.get('title'));
+    console.log(process.env.REACT_APP_KAKAO_KEY);
 
 
     const Div = styled('div')({

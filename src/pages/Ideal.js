@@ -60,7 +60,7 @@ export default function Ideal(){
                     {raceList.map((item, index)=>{
                         return(
                             <Grid item xs={6} md={3}>
-                                <IdealCard title={item.title} videoSrc={item.src} category={item._id} />
+                                <IdealCard title={item.title} videoSrc={item.src} categoryId={item._id} />
                             </Grid>)
                     })}
                 </Grid>
