@@ -1,5 +1,5 @@
 import React,{useState, useRef, useEffect} from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Stack, Box, Button, Container, Card, CardContent, LinearProgress, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
@@ -11,6 +11,7 @@ export default function IdelaVs(){
 
     const { id } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     const Div = styled('div')({
         background: "yellow",
@@ -88,7 +89,9 @@ export default function IdelaVs(){
             // game end
             // go winner page
             setRaceResult.finalWin(players[e.target.className[0]]._id);
-            alert(`winner is ${players[e.target.className[0]].name}`);
+
+            navigate(`/Ideal/winner/${players[e.target.className[0]]._id}?title=${searchParams.get('title')}`)
+            // alert(`winner is ${players[e.target.className[0]].name}`);
             return;
         }
         setWinners([
