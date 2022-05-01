@@ -109,7 +109,7 @@ export default function IdealCard(props){
             <CardActions sx={{position:'relative', justifyContent:"center"}}>
                 <ButtonGroup >
                     <Button size="small" onClick={cardActionHandler}>시작</Button>
-                    <Button size="small">통계</Button>
+                    <Button size="small">랭킹</Button>
                     <Button 
                         id="share-button"
                         aria-controls={open ? 'share-menu' : undefined}

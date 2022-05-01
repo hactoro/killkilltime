@@ -3,8 +3,6 @@ import React, { useEffect } from 'react'
 const KakaoShareButton = ({contentTitle, url, imgSrc}) => {
   useEffect(() => {
     createKakaoButton()
-    console.log("카카오버튼")
-    console.log(imgSrc);
   }, [])
 
   const createKakaoButton = () => {

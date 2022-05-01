@@ -83,12 +83,12 @@ export default function IdelaVs(){
         setIsRoundStart(true);
     },[nextRound])
 
-    const roundUpHandler = (e) => {
+    const roundUpHandler = async (e) => {
     
         if(nextRound === 1){
             // game end
             // go winner page
-            setRaceResult.finalWin(players[e.target.className[0]]._id);
+            await setRaceResult.finalWin(players[e.target.className[0]]._id);
 
             navigate(`/Ideal/winner/${players[e.target.className[0]]._id}?title=${searchParams.get('title')}`)
             // alert(`winner is ${players[e.target.className[0]].name}`);
@@ -130,9 +130,9 @@ export default function IdelaVs(){
         lose: ()=>{
             alert("lose");
         },
-        finalWin: (winner)=>{
+        finalWin: async (winner)=>{
             try{
-                axios.patch(`/admin/contents/race/finalwin/${winner}`)
+                return axios.patch(`/admin/contents/race/finalwin/${winner}`) // promise return
             }catch(err){
                 console.log(err)
             }
