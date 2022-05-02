@@ -1,18 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import {useParams, useSearchParams} from 'react-router-dom';
-import {Container, Typography, Stack, Box, Card, CardContent, CardActions, SpeedDial, SpeedDialAction, SpeedDialIcon} from '@mui/material';
+import {useParams, useSearchParams, useNavigate} from 'react-router-dom';
+import {Container, Typography, Stack, Box, Card, CardContent, CardActions, SpeedDial, SpeedDialAction, SpeedDialIcon, Snackbar} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
+import ShareIcon from '@mui/icons-material/Share';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import {  faTrophy, faMedal, faFaceSadTear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import KakaoIcon from '../../../components/custom-icon/KakaoIcon'
-import {sendKakaoShare} from '../../../utils/speedDialActions'
+import {sendKakaoShare, copyAddress, returnToIdealMain} from '../../../utils/speedDialActions'
+
+
 
 const actions = [
-    { icon: <KakaoIcon />, 
-      name: '카카오로 공유',
-      action: sendKakaoShare},
+    { 
+        icon: <KakaoIcon />, 
+        name: '카카오로 공유',
+        action: sendKakaoShare
+    },
+    {
+        icon: <ShareIcon />,
+        name: '주소복사',
+        action: copyAddress
+
+    },
+    {
+        icon: <KeyboardReturnIcon />,
+        name: '이상형 월드컵 메인으로',
+        action: returnToIdealMain   
+    }
 
     
    
@@ -21,6 +38,7 @@ const actions = [
 export default function FinalWinner(){
     const {id} = useParams(); // id
     const [searchParams, setSearchParams] = useSearchParams(); // title
+    const navigate = useNavigate();
     
     const [winnerInfo, setWinnerInfo] = useState({});
     const [winInfo, setWinInfo] = useState({
@@ -30,6 +48,9 @@ export default function FinalWinner(){
     })
     const [topList, setTopList] = useState([]);
     const [open, setOpen] = useState(false);
+    const [infoOpen, setInfoOpen] = useState(false);
+    const [infoMessage, setInfoMessage] = useState();
+    const [anchorEl, setAnchorEl] = useState(null);
     
  
     const speedDialCloseHandle = () => {
@@ -65,74 +86,15 @@ export default function FinalWinner(){
 
     useEffect(()=>{
         setWinner(id);
-
-        alert(`${window.location.href}`)
     }, [])
     
+    const snackBarCloseHandler = () => {
+        setInfoOpen(false);
+    }
+
 
     return(
         <Container>
-<<<<<<< HEAD
-        
-      
-
-                    
-            <Typography>
-                {searchParams.get('title')}
-            </Typography> 
-            
-            {winnerInfo.name}
-
-            <Stack alignItems="center" justifyContent="center">
-
-                <Card sx={{width:"50%"}}>
-
-                        <ReactPlayer
-                            url={winnerInfo.src}
-                            width="100%"
-                            height="100%"
-                            muted 
-                            playing
-                            playsinline
-                            loop
-                        />  
-
-                    <CardContent>
-                        <TitleStyle >                            
-                            {winnerInfo.name}{winnerInfo.group ? `(${winnerInfo.group})`: ''}
-                        </TitleStyle>
-                    </CardContent>
-                    <CardActions sx={{direction:"row", alignItems:"center", justifyContent:"space-around"}} spacing={3}>
-
-                            <Box>
-                                <Box>
-                                    최종우승
-                                </Box>
-                                <Box>
-                                    {/* {winnerInfo.statics.finalWin} */}
-                                </Box>
-                            </Box>
-                            <Box>
-                                <Box>
-                                    우승
-                                </Box>
-                                <Box>
-                                    {/* {winnerInfo.statics.win?winnerInfo.statics.win:0} */}
-                                </Box>
-                            </Box>
-                            <Box>
-                                <Box>
-                                    패배
-                                </Box>
-                                <Box>
-                                    {/* {winnerInfo.statics.lose?winnerInfo.statics.lose:0} */}
-                                </Box>
-                            </Box>
-            
-                    </CardActions>
-                </Card>
-            </Stack>
-=======
          
             <Typography align="center" variant="h2" sx={{marginBottom:"10px"}}>
                 {searchParams.get('title')} 우승자
@@ -142,9 +104,7 @@ export default function FinalWinner(){
             <Stack alignItems="center" justifyContent="center">
 
                 <Card >
-                        
-                        
-                
+
                     <ReactPlayer
                         url={winnerInfo.src}
                         width="100%"
@@ -158,7 +118,6 @@ export default function FinalWinner(){
                         <Typography align="center" variant="h3" >
                             {winnerInfo.name}{winnerInfo.group ? `(${winnerInfo.group})`: ''}
                         </Typography>
->>>>>>> d319f329b40d50ea63e2ca30526b99ab9eff60e3
                     
                         <div style={{position:"absolute", right:"5px", bottom:"30px"}}>
 
@@ -173,20 +132,28 @@ export default function FinalWinner(){
                                 >
                                 {
                                     actions.map((action)=>{
-
+                                        
+                                        const params = {
+                                            contentTitle: searchParams.get('title'),
+                                            desc: "#이상형월드컵 #나의취향은 #낄낄시간",
+                                            imgSrc: "",
+                                            url: `${window.location.href}`,
+                                            redirectPage: `/Ideal`
+                                        }
 
                                         return(
                                             <SpeedDialAction
                                                 key={action.name}
                                                 icon={action.icon}
                                                 tooltipTitle={action.name}
-                                                onClick={()=>{
-                                                    action.action(
-                                                        searchParams.get('title'),
-                                                        "#이상형월드컵 #나의취향은 #낄낄시간",
-                                                        "",
-                                                        `${window.location.href}`
-                                                    )}
+                                                onClick={async()=>{
+
+                                                    await action.action(params)
+                                                    setInfoMessage(action.name);
+                                                    setInfoOpen(true);
+                                                    setAnchorEl(null);
+
+                                                    }
                                                 }
                                             />
                                         )
@@ -229,7 +196,13 @@ export default function FinalWinner(){
                 
                 </Card>
             </Stack>
-            
+            <Snackbar
+                anchorOrigin={{vertical:'bottom',horizontal:'right'}}
+                open={infoOpen}
+                autoHideDuration={1500}
+                message={infoMessage}
+                onClose={snackBarCloseHandler}
+            />
         </Container>
     )
 
