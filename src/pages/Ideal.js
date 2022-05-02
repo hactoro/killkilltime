@@ -44,7 +44,6 @@ export default function Ideal(){
     useEffect(async()=>{
         try{
             const ret = await axios.get('/admin/contents/race/racelist');
-            console.log(ret);
             setRaceList(ret.data.raceList);
         }catch(err){
             alert("시스템에 문제가 있습니다. 나중에 접속해주세요.")
@@ -59,7 +58,7 @@ export default function Ideal(){
                 <Grid container spacing={1}>
                     {raceList.map((item, index)=>{
                         return(
-                            <Grid item xs={6} md={3}>
+                            <Grid item xs={12} md={3}>
                                 <IdealCard title={item.title} videoSrc={item.src} categoryId={item._id} />
                             </Grid>)
                     })}
