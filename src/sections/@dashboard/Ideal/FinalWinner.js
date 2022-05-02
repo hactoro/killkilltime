@@ -62,61 +62,61 @@ export default function FinalWinner(){
       
 
                     
-                        <Typography>
-                            {searchParams.get('title')}
-                        </Typography> 
-                        
-                        {winnerInfo.name}
-
-                        <Stack alignItems="center" justifyContent="center">
-
-                            <Card sx={{width:"50%"}}>
-
-                                    <ReactPlayer
-                                        url={winnerInfo.src}
-                                        width="100%"
-                                        height="100%"
-                                        muted 
-                                        playing
-                                        playsinline
-                                        loop
-                                    />  
+            <Typography>
+                {searchParams.get('title')}
+            </Typography> 
             
-                                <CardContent>
-                                    <TitleStyle >                            
-                                        {winnerInfo.name}{winnerInfo.group ? `(${winnerInfo.group})`: ''}
-                                    </TitleStyle>
-                                </CardContent>
-                                <CardActions sx={{direction:"row", alignItems:"center", justifyContent:"space-around"}} spacing={3}>
+            {winnerInfo.name}
 
-                                        <Box>
-                                            <Box>
-                                                최종우승
-                                            </Box>
-                                            <Box>
-                                                {/* {winnerInfo.statics.finalWin} */}
-                                            </Box>
-                                        </Box>
-                                        <Box>
-                                            <Box>
-                                                우승
-                                            </Box>
-                                            <Box>
-                                                {/* {winnerInfo.statics.win?winnerInfo.statics.win:0} */}
-                                            </Box>
-                                        </Box>
-                                        <Box>
-                                            <Box>
-                                                패배
-                                            </Box>
-                                            <Box>
-                                                {/* {winnerInfo.statics.lose?winnerInfo.statics.lose:0} */}
-                                            </Box>
-                                        </Box>
-                        
-                                </CardActions>
-                            </Card>
-                        </Stack>
+            <Stack alignItems="center" justifyContent="center">
+
+                <Card sx={{width:"50%"}}>
+
+                        <ReactPlayer
+                            url={winnerInfo.src}
+                            width="100%"
+                            height="100%"
+                            muted 
+                            playing
+                            playsinline
+                            loop
+                        />  
+
+                    <CardContent>
+                        <TitleStyle >                            
+                            {winnerInfo.name}{winnerInfo.group ? `(${winnerInfo.group})`: ''}
+                        </TitleStyle>
+                    </CardContent>
+                    <CardActions sx={{direction:"row", alignItems:"center", justifyContent:"space-around"}} spacing={3}>
+
+                            <Box>
+                                <Box>
+                                    최종우승
+                                </Box>
+                                <Box>
+                                    {/* {winnerInfo.statics.finalWin} */}
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Box>
+                                    우승
+                                </Box>
+                                <Box>
+                                    {/* {winnerInfo.statics.win?winnerInfo.statics.win:0} */}
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Box>
+                                    패배
+                                </Box>
+                                <Box>
+                                    {/* {winnerInfo.statics.lose?winnerInfo.statics.lose:0} */}
+                                </Box>
+                            </Box>
+            
+                    </CardActions>
+                </Card>
+            </Stack>
                     
      
             

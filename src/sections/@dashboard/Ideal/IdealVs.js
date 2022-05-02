@@ -100,7 +100,12 @@ export default function IdelaVs(){
         ]);
 
         setRaceResult.win(players[e.target.className[0]]._id);
-
+        if(players[e.target.className[0]] === 1){
+            setRaceResult.lose(players[0]._id);
+        }else{
+            setRaceResult.lose(players[1]._id);
+        }
+        
  
 
         if((steps.current + 1) === nextRound){
@@ -127,8 +132,12 @@ export default function IdelaVs(){
                 console.log(err);
             }
         },
-        lose: ()=>{
-            alert("lose");
+        lose: (loser)=>{
+            try{
+                axios.patch(`/admin/contents/race/lose/${loser}`)
+            }catch(err){
+                console.log(err);
+            }
         },
         finalWin: (winner)=>{
             try{
