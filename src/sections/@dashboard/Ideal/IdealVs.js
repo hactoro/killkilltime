@@ -39,6 +39,7 @@ export default function IdelaVs(){
     
     const offset = useRef(0);
     const steps = useRef(0);
+    const raceResult = useRef(null);
     
     const [startRound, setStartRound] = useState(16);
     const [nextRound, setNextRound] = useState(0);
@@ -88,7 +89,15 @@ export default function IdelaVs(){
         if(nextRound === 1){
             // game end
             // go winner page
-            await setRaceResult.finalWin(players[e.target.className[0]]._id);
+            setRaceResult.win(players[e.target.className[0]]._id);
+            setRaceResult.finalWin(players[e.target.className[0]]._id);
+            if(e.target.className[0] === '1'){
+                setRaceResult.lose(players[0]._id);
+            }else{
+                setRaceResult.lose(players[1]._id);
+            }    
+     
+            await setRaceResult.sendResult(raceResult.current);
 
             navigate(`/Ideal/winner/${players[e.target.className[0]]._id}?title=${searchParams.get('title')}`)
             // alert(`winner is ${players[e.target.className[0]].name}`);
@@ -100,7 +109,8 @@ export default function IdelaVs(){
         ]);
 
         setRaceResult.win(players[e.target.className[0]]._id);
-        if(players[e.target.className[0]] === 1){
+        if(e.target.className[0] === '1'){
+            console.log(e.target.className[0]);
             setRaceResult.lose(players[0]._id);
         }else{
             setRaceResult.lose(players[1]._id);
@@ -125,33 +135,91 @@ export default function IdelaVs(){
     }
     
     const setRaceResult = {
-        win: (winner)=>{
-            try{
-                axios.patch(`/admin/contents/race/win/${winner}`)
-            }catch(err){
-                console.log(err);
+        // win: (winner)=>{
+        //     try{
+        //         axios.patch(`/admin/contents/race/win/${winner}`)
+        //     }catch(err){
+        //         console.log(err);
+        //     }
+        // },
+        // lose: (loser)=>{
+        //     try{
+        //         axios.patch(`/admin/contents/race/lose/${loser}`)
+        //     }catch(err){
+        //         console.log(err);
+        //     }
+        // },
+        // finalWin: async (winner)=>{
+        //     try{
+        //         return axios.patch(`/admin/contents/race/finalwin/${winner}`) // promise return
+        //     }catch(err){
+        //         console.log(err)
+        //     }
+        // }
+
+        win: (winner) => {
+            raceResult.current = raceResult.current.map((item)=>{
+               
+                if(item.id === winner) item.winCnt += 1;
+        
+                return item;
             }
+            )
         },
-        lose: (loser)=>{
-            try{
-                axios.patch(`/admin/contents/race/lose/${loser}`)
-            }catch(err){
-                console.log(err);
+        lose: (loser) => {
+            raceResult.current = raceResult.current.map((item)=>{
+               
+                if(item.id === loser) item.loseCnt += 1;
+        
+                return item;
             }
+            )
         },
-        finalWin: async (winner)=>{
+        finalWin: (winner) => {
+            raceResult.current = raceResult.current.map((item)=>{
+               
+                if(item.id === winner) item.finalCnt += 1;
+        
+                return item;
+            }
+            )
+        },
+        sendResult: async(result) => {
             try{
-                return axios.patch(`/admin/contents/race/finalwin/${winner}`) // promise return
+                
+                await axios.patch('/admin/contents/race/result/set/list',
+                    {
+                        raceRecords: result
+                    }
+                )
+                 // promise return
             }catch(err){
                 console.log(err)
             }
+        
+        },
+        init: (races) => {
+            return (
+                races.map((item)=>{
+                   return {
+                            id: item._id,
+                            finalCnt: 0,
+                            winCnt: 0,
+                            loseCnt: 0  
+                        }
+                })
+            )
         }
+
 
     }
     const gameStartHandler = async(e) => {
         try{
             const ret = await axios.get(`/admin/contents/race/?categoryId=${id}&limit=${startRound}`);
-            console.log(ret)
+
+            console.log("hello ideal race")
+            raceResult.current = setRaceResult.init(ret.data.candidates);
+            console.log(raceResult.current);
             setItems(ret.data.candidates);
             setNextRound((startRound/2));
             
