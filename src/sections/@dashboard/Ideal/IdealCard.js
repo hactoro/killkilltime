@@ -58,6 +58,10 @@ export default function IdealCard(props){
         navigate(`/ideal/${categoryId}?title=${title}`)
     }
 
+    const goRanks = (e) => {
+        navigate(`/ideal/ranks/${categoryId}`)
+    }
+
     const [anchorEl, setAnchorEl] = useState(null);
     const [infoOpen, setInfoOpen] = useState(false);
     const open = Boolean(anchorEl);
@@ -109,7 +113,7 @@ export default function IdealCard(props){
             <CardActions sx={{position:'relative', justifyContent:"center"}}>
                 <ButtonGroup >
                     <Button size="small" onClick={cardActionHandler}>시작</Button>
-                    <Button size="small">랭킹</Button>
+                    <Button size="small" onClick={goRanks}>랭킹</Button>
                     <Button 
                         id="share-button"
                         aria-controls={open ? 'share-menu' : undefined}

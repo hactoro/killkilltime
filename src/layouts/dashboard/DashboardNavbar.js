@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 // components
 import Iconify from '../../components/Iconify';
 //
@@ -23,7 +23,7 @@ const RootStyle = styled(AppBar)(({ theme }) => ({
   backgroundColor: alpha(theme.palette.background.default, 0.72),
   [theme.breakpoints.up('lg')]: {
     width: `calc(100% - ${DRAWER_WIDTH + 1}px)`,
-  },
+  }
 }));
 
 const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
@@ -48,14 +48,19 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
 
-        <Searchbar />
+        <Stack flexGrow="1" sx={{textAlign: "center", color:"#575294"}}>
+          <Typography variant="h3" >
+            낄낄타임
+          </Typography>
+        </Stack>
+        {/* <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          {/* <LanguagePopover /> */}
+          <LanguagePopover />
           <NotificationsPopover />
           <AccountPopover />
-        </Stack>
+        </Stack> */}
       </ToolbarStyle>
     </RootStyle>
   );

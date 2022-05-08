@@ -52,8 +52,7 @@ export default function IdelaVs(){
     useEffect2(()=>{
 
         if( (nextRound !== 1) && (winners.length >= nextRound)){
-            // const toNext = nextRound.current / 2;
-            // nextRound.current = toNext;
+           
             setNextRound( nextRound / 2)
             setItems(winners);
             setWinners([]);
@@ -100,7 +99,6 @@ export default function IdelaVs(){
             await setRaceResult.sendResult(raceResult.current);
 
             navigate(`/Ideal/winner/${players[e.target.className[0]]._id}?title=${searchParams.get('title')}`)
-            // alert(`winner is ${players[e.target.className[0]].name}`);
             return;
         }
         setWinners([
@@ -187,11 +185,13 @@ export default function IdelaVs(){
         sendResult: async(result) => {
             try{
                 
-                await axios.patch('/admin/contents/race/result/set/list',
+                const ret = await axios.patch('/admin/contents/race/result/set/list',
                     {
                         raceRecords: result
                     }
                 )
+                return ret;
+
                  // promise return
             }catch(err){
                 console.log(err)
@@ -219,7 +219,6 @@ export default function IdelaVs(){
 
             console.log("hello ideal race")
             raceResult.current = setRaceResult.init(ret.data.candidates);
-            console.log(raceResult.current);
             setItems(ret.data.candidates);
             setNextRound((startRound/2));
             
