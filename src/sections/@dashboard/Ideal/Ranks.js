@@ -1,12 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useSearchParams} from 'react-router-dom'
 import ReactPlayer from 'react-player';
-import {Container, Stack, Typography, Card, CardContent, CardActions, CardHeader, Box, Grid, useMediaQuery} from '@mui/material'
+import {Container, Stack, Typography, Card, CardContent, CardActions, CardHeader, Box, Grid, useMediaQuery,
+        Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, tableCellClasses
+        } from '@mui/material';
+import {styled} from '@mui/material/styles';
 import axios from 'axios';
 import {  faTrophy, faMedal, faFaceSadTear, faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+  
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
 
 
 export default function Ranks(){
@@ -88,6 +109,53 @@ export default function Ranks(){
                                         />
                                 </Grid>
                             </Grid>
+                        </Stack>
+
+                        <Stack sx={{marginTop:"10px"}}>
+                            
+                            <TableContainer component={Paper}>
+                                <Table stickyHeader>
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">순위</StyledTableCell>
+                                            <StyledTableCell align="center">이름</StyledTableCell>
+                                            <StyledTableCell align="center">최종우승</StyledTableCell>
+                                            <StyledTableCell align="center">1:1우승</StyledTableCell>
+                                            <StyledTableCell align="center">1:1패배</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {ranks.map((item,index)=>{
+
+                                            let ret;
+                                            
+                                            return(
+
+                                                        <StyledTableRow key={item._id}>
+                                                            <TableCell component="th" scope="row">
+                                                                {index+1}
+                                                            </TableCell>
+                                                            <TableCell align="center">{item.name}</TableCell>
+                                                            <TableCell align="center">{item.statics.finalWin}</TableCell>
+                                                            <TableCell align="center">{item.statics.win}</TableCell>
+                                                            <TableCell align="center">{item.statics.lose}</TableCell>
+                                                        </StyledTableRow>
+                                            )
+                             
+                                            
+                                            
+                                            
+
+                                                
+                                            
+                                        })}
+                                    </TableBody>
+                                </Table>        
+                                
+                        
+                            </TableContainer>
+
+
                         </Stack>
                         
                         
