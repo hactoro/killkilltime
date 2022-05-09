@@ -59,7 +59,7 @@ export default function IdealCard(props){
     }
 
     const goRanks = (e) => {
-        navigate(`/ideal/ranks/${categoryId}`)
+        navigate(`/ideal/ranks/${categoryId}?title=${title}`)
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
