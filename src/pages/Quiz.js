@@ -1,4 +1,5 @@
 import {Container, Stack, Typography, Grid, Card, CardContent, CardActions, Button } from '@mui/material'
+import {useNavigate} from 'react-router-dom';
 import {styled} from '@mui/material/styles';
 
 
@@ -20,9 +21,10 @@ const CoverMediaStyle = styled('div')({
 
 export default function Quiz(){
     
-    const goQuiz = () => {
+    const navigate = useNavigate();
 
-        alert("hello");
+    const goQuiz = () => {
+        navigate('/QuizGame')
     }
 
     return(

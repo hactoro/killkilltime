@@ -15,6 +15,7 @@ import IdealVs from './sections/@dashboard/Ideal/IdealVs'
 import FinalWinner from './sections/@dashboard/Ideal/FinalWinner';
 import Ranks from './sections/@dashboard/Ideal/Ranks';
 import Quiz from './pages/Quiz';
+import QuizGame from './sections/@dashboard/quiz/QuizGame'
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +33,8 @@ export default function Router() {
         { path: 'Ideal/:id', element: <IdealVs />},
         { path: 'Ideal/winner/:id', element: <FinalWinner />},
         { path: 'Ideal/ranks/:id', element: <Ranks />},
-        { path: 'Quiz', element: <Quiz />}
+        { path: 'Quiz', element: <Quiz />},
+        { path: 'QuizGame', element: <QuizGame />}
 
       ],
     },
