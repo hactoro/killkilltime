@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
 import useEffect2 from '../../../hooks/useEffect2';
+import Page from '../../../components/Page';
 
 export default function IdelaVs(){
 
@@ -230,92 +231,94 @@ export default function IdelaVs(){
 
     return(
 
-        <Container>
-    
-            { isRoundStart?
-                (
-                    <>  
-                        <Stack alignItems="center" justifyContent="center" sx={{marginBottom:"10px"}}>
-                        <Typography variant="h2" >
-                                    {searchParams.get('title')} 월드컵
-                                </Typography>
-                        </Stack>
-                        <Stack direction="column" alignItems="center" justifyContent="center">
-                        { nextRound === 1 ? "결승" : <>{nextRound * 2 } 강</> }
-                        <Box sx={{width:"100%", marginBottom:"2%"}}>
-                            <LinearProgress variant="determinate" value={progress} />
-                        </Box>
-
-                        </Stack>
-                        <Stack direction="row" alignItems="center" justifyContent="center" >
-                            {players.map((item, index)=>{
-                                return(
-                                    <Card key={index} onClick={roundUpHandler} sx={{width:"50%"}}>
-                                        <CardMediaStyle>
-                                            <ReactPlayer
-                                                url={item.src}
-                                                width="100%"
-                                                height="100%"
-                                                muted
-                                                playing
-                                                playsinline
-                                                loop
-                                            />
-                                        </CardMediaStyle>
-                                        <CardContent>
-                                            <TitleStyle >                            
-                                                {item.name}{item.group ? `(${item.group})`: ''}
-                                            </TitleStyle>
-                                        </CardContent>
-                                        <VideoCover className={index}>
-                                            imageCover
-                                        </VideoCover>
-                                    </Card>
-                                )
-                            })}
-                        </Stack>
-                    </>
-                )
-                :
-                (
-                    <>
-                        <Container maxWidth="sm" >
-                            <Stack direction="column" alignItems="center">
-                                <Typography variant="h2" >
-                                    {searchParams.get('title')} 월드컵
-                                </Typography>
-                                <FormControl fullWidth sx={{marginTop:"20px"}}>
-
-
-                                    <InputLabel id="round-selector">Round</InputLabel>
-                                    <Select 
-                                        labelId="round-selector"
-                                        id="simple-select-label"
-                                        label="Rounddd"
-                                        value={startRound}
-                                        onChange={roundSelectorHandler}
-                                    >
-                                        <MenuItem value={8}>8강</MenuItem>
-                                        <MenuItem value={16}>16강</MenuItem>
-                                    </Select>
-
-                                    <Button 
-                                        variant="contained" 
-                                        color="primary" 
-                                        startIcon={<SendIcon />}
-                                        sx={{marginTop: "10px"}}
-                                        onClick={gameStartHandler} 
-                                    >
-                                        Start
-                                    </Button>
-
-                                </FormControl>
+        <Page title={'이상형월드컵: 배틀그라운드'} >
+            <Container>
+        
+                { isRoundStart?
+                    (
+                        <>  
+                            <Stack alignItems="center" justifyContent="center" sx={{marginBottom:"10px"}}>
+                            <Typography variant="h2" >
+                                        {searchParams.get('title')} 월드컵
+                                    </Typography>
+                            </Stack>
+                            <Stack direction="column" alignItems="center" justifyContent="center">
+                            { nextRound === 1 ? "결승" : <>{nextRound * 2 } 강</> }
+                            <Box sx={{width:"100%", marginBottom:"2%"}}>
+                                <LinearProgress variant="determinate" value={progress} />
+                            </Box>
 
                             </Stack>
-                        </Container>
-                    </>
-                )
-            }
-        </Container>
+                            <Stack direction="row" alignItems="center" justifyContent="center" >
+                                {players.map((item, index)=>{
+                                    return(
+                                        <Card key={index} onClick={roundUpHandler} sx={{width:"50%"}}>
+                                            <CardMediaStyle>
+                                                <ReactPlayer
+                                                    url={item.src}
+                                                    width="100%"
+                                                    height="100%"
+                                                    muted
+                                                    playing
+                                                    playsinline
+                                                    loop
+                                                />
+                                            </CardMediaStyle>
+                                            <CardContent>
+                                                <TitleStyle >                            
+                                                    {item.name}{item.group ? `(${item.group})`: ''}
+                                                </TitleStyle>
+                                            </CardContent>
+                                            <VideoCover className={index}>
+                                                imageCover
+                                            </VideoCover>
+                                        </Card>
+                                    )
+                                })}
+                            </Stack>
+                        </>
+                    )
+                    :
+                    (
+                        <>
+                            <Container maxWidth="sm" >
+                                <Stack direction="column" alignItems="center">
+                                    <Typography variant="h2" >
+                                        {searchParams.get('title')} 월드컵
+                                    </Typography>
+                                    <FormControl fullWidth sx={{marginTop:"20px"}}>
+
+
+                                        <InputLabel id="round-selector">Round</InputLabel>
+                                        <Select 
+                                            labelId="round-selector"
+                                            id="simple-select-label"
+                                            label="Rounddd"
+                                            value={startRound}
+                                            onChange={roundSelectorHandler}
+                                        >
+                                            <MenuItem value={8}>8강</MenuItem>
+                                            <MenuItem value={16}>16강</MenuItem>
+                                        </Select>
+
+                                        <Button 
+                                            variant="contained" 
+                                            color="primary" 
+                                            startIcon={<SendIcon />}
+                                            sx={{marginTop: "10px"}}
+                                            onClick={gameStartHandler} 
+                                        >
+                                            Start
+                                        </Button>
+
+                                    </FormControl>
+
+                                </Stack>
+                            </Container>
+                        </>
+                    )
+                }
+            </Container>
+        </Page>
     )
 }   

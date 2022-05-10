@@ -8,6 +8,7 @@ import {styled} from '@mui/material/styles';
 import axios from 'axios';
 import {  faTrophy, faMedal, faFaceSadTear, faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Page from '../../../components/Page';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -46,133 +47,135 @@ export default function Ranks(){
 
 
     return(
-        <Container>
-            <Stack>
-                <Typography variant='h4' style={{color:'grey'}} >
-                    {searchParams.get('title')} 순위
-                </Typography>
-            </Stack>
-            <Stack flexDirection={'row'} justifyContent={'center'} sx={{margin:'20px'}}>
-                <Typography variant='h2'>
-                    TOP 10
-                </Typography>
-                
-            </Stack>
-            <Stack alignItems={"center"} justifyContent={"center"}>
+        <Page title={'이상형월드컵: 순위'} >
+            <Container>
+                <Stack>
+                    <Typography variant='h4' style={{color:'grey'}} >
+                        {searchParams.get('title')} 순위
+                    </Typography>
+                </Stack>
+                <Stack flexDirection={'row'} justifyContent={'center'} sx={{margin:'20px'}}>
+                    <Typography variant='h2'>
+                        TOP 10
+                    </Typography>
+                    
+                </Stack>
+                <Stack alignItems={"center"} justifyContent={"center"}>
 
-                { ranks ? 
-                    (
-                        <>
+                    { ranks ? 
+                        (
+                            <>
 
-                        <Stack sx={{marginTop:"20px;"}}>
+                            <Stack sx={{marginTop:"20px;"}}>
 
-                            <Stack justifyContent={'center'} sx={{marginBottom: "15px"}}>
-                                <CardRank 
-                                    rank={'1위'} 
-                                    src={ranks[0].src}
-                                    name={ranks[0].name}
-                                    group={ranks[0].group}
-                                    finalWin={ranks[0].statics.finalWin}
-                                    win={ranks[0].statics.win}
-                                    lose={ranks[0].statics.lose}
-                                    />
+                                <Stack justifyContent={'center'} sx={{marginBottom: "15px"}}>
+                                    <CardRank 
+                                        rank={'1위'} 
+                                        src={ranks[0].src}
+                                        name={ranks[0].name}
+                                        group={ranks[0].group}
+                                        finalWin={ranks[0].statics.finalWin}
+                                        win={ranks[0].statics.win}
+                                        lose={ranks[0].statics.lose}
+                                        />
+                                </Stack>
+                                
+
+                                <Grid container 
+                                        spacing={{
+                                            md: 10,
+                                            sm: 2,
+                                            xs: 2}}>
+        
+                                    <Grid item xs={12} md={6}>
+                                        <CardRank 
+                                            rank={'2위'} 
+                                            src={ranks[1].src}
+                                            name={ranks[1].name}
+                                            group={ranks[1].group}
+                                            finalWin={ranks[1].statics.finalWin}
+                                            win={ranks[1].statics.win}
+                                            lose={ranks[1].statics.lose}
+                                            />
+                                    </Grid>
+
+                                    <Grid item xs={12} md={6}>
+                                        <CardRank 
+                                            rank={'3위'} 
+                                            src={ranks[2].src}
+                                            name={ranks[2].name}
+                                            group={ranks[2].group}
+                                            finalWin={ranks[2].statics.finalWin}
+                                            win={ranks[2].statics.win}
+                                            lose={ranks[2].statics.lose}
+                                            />
+                                    </Grid>
+                                </Grid>
+                            </Stack>
+
+                            <Stack sx={{marginTop:"10px"}}>
+                                
+                                <TableContainer component={Paper}>
+                                    <Table stickyHeader>
+                                        <TableHead>
+                                            <TableRow>
+                                                <StyledTableCell align="center">순위</StyledTableCell>
+                                                <StyledTableCell align="center">이름</StyledTableCell>
+                                                <StyledTableCell align="center">최종우승</StyledTableCell>
+                                                <StyledTableCell align="center">1:1우승</StyledTableCell>
+                                                <StyledTableCell align="center">1:1패배</StyledTableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {ranks.map((item,index)=>{
+
+                                                let ret;
+                                                
+                                                return(
+
+                                                            <StyledTableRow key={item._id}>
+                                                                <TableCell component="th" scope="row">
+                                                                    {index+1}
+                                                                </TableCell>
+                                                                <TableCell align="center">{item.name}</TableCell>
+                                                                <TableCell align="center">{item.statics.finalWin}</TableCell>
+                                                                <TableCell align="center">{item.statics.win}</TableCell>
+                                                                <TableCell align="center">{item.statics.lose}</TableCell>
+                                                            </StyledTableRow>
+                                                )
+                                
+                                                
+                                                
+                                                
+
+                                                    
+                                                
+                                            })}
+                                        </TableBody>
+                                    </Table>        
+                                    
+                            
+                                </TableContainer>
+
+
                             </Stack>
                             
-
-                            <Grid container 
-                                    spacing={{
-                                        md: 10,
-                                        sm: 2,
-                                        xs: 2}}>
-    
-                                <Grid item xs={12} md={6}>
-                                    <CardRank 
-                                        rank={'2위'} 
-                                        src={ranks[1].src}
-                                        name={ranks[1].name}
-                                        group={ranks[1].group}
-                                        finalWin={ranks[1].statics.finalWin}
-                                        win={ranks[1].statics.win}
-                                        lose={ranks[1].statics.lose}
-                                        />
-                                </Grid>
-
-                                <Grid item xs={12} md={6}>
-                                    <CardRank 
-                                        rank={'3위'} 
-                                        src={ranks[2].src}
-                                        name={ranks[2].name}
-                                        group={ranks[2].group}
-                                        finalWin={ranks[2].statics.finalWin}
-                                        win={ranks[2].statics.win}
-                                        lose={ranks[2].statics.lose}
-                                        />
-                                </Grid>
-                            </Grid>
-                        </Stack>
-
-                        <Stack sx={{marginTop:"10px"}}>
                             
-                            <TableContainer component={Paper}>
-                                <Table stickyHeader>
-                                    <TableHead>
-                                        <TableRow>
-                                            <StyledTableCell align="center">순위</StyledTableCell>
-                                            <StyledTableCell align="center">이름</StyledTableCell>
-                                            <StyledTableCell align="center">최종우승</StyledTableCell>
-                                            <StyledTableCell align="center">1:1우승</StyledTableCell>
-                                            <StyledTableCell align="center">1:1패배</StyledTableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {ranks.map((item,index)=>{
-
-                                            let ret;
-                                            
-                                            return(
-
-                                                        <StyledTableRow key={item._id}>
-                                                            <TableCell component="th" scope="row">
-                                                                {index+1}
-                                                            </TableCell>
-                                                            <TableCell align="center">{item.name}</TableCell>
-                                                            <TableCell align="center">{item.statics.finalWin}</TableCell>
-                                                            <TableCell align="center">{item.statics.win}</TableCell>
-                                                            <TableCell align="center">{item.statics.lose}</TableCell>
-                                                        </StyledTableRow>
-                                            )
-                             
-                                            
-                                            
-                                            
-
-                                                
-                                            
-                                        })}
-                                    </TableBody>
-                                </Table>        
-                                
-                        
-                            </TableContainer>
-
-
-                        </Stack>
-                        
-                        
-                        
-                        
-                        
-                        
-                        </>
-                        
-                        
-                    )
-                    : 
-                    (
-                        "시스템 연결에 문제가 있습니다."
-                    )}
-            </Stack>
-        </Container>
+                            
+                            
+                            
+                            
+                            </>
+                            
+                            
+                        )
+                        : 
+                        (
+                            "시스템 연결에 문제가 있습니다."
+                        )}
+                </Stack>
+            </Container>
+        </Page>
     )
 }
 

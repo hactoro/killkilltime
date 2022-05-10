@@ -55,7 +55,12 @@ export default function Ideal(){
     return(
         <Page title="이상형 월드컵">
             <Container>
-                <Grid container spacing={1}>
+                <Stack>
+                    <Typography variant='h4' style={{color:"grey", marginBottom:"10px"}}>
+                        이상형 월드컵
+                    </Typography>
+                </Stack>
+                <Grid container spacing={1} >
                     {raceList.map((item, index)=>{
                         return(
                             <Grid item xs={12} md={3}>

@@ -14,6 +14,7 @@ import Ideal from './pages/Ideal';
 import IdealVs from './sections/@dashboard/Ideal/IdealVs'
 import FinalWinner from './sections/@dashboard/Ideal/FinalWinner';
 import Ranks from './sections/@dashboard/Ideal/Ranks';
+import Quiz from './pages/Quiz';
 
 // ----------------------------------------------------------------------
 
@@ -23,14 +24,15 @@ export default function Router() {
       path: '/',
       element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
+        // { path: 'app', element: <DashboardApp /> },
+        // { path: 'user', element: <User /> },
+        // { path: 'products', element: <Products /> },
+        // { path: 'blog', element: <Blog /> },
         { path: 'Ideal', element: <Ideal />},
         { path: 'Ideal/:id', element: <IdealVs />},
         { path: 'Ideal/winner/:id', element: <FinalWinner />},
-        { path: 'Ideal/ranks/:id', element: <Ranks />}
+        { path: 'Ideal/ranks/:id', element: <Ranks />},
+        { path: 'Quiz', element: <Quiz />}
 
       ],
     },

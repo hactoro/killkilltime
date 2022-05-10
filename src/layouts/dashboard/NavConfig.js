@@ -17,15 +17,16 @@ const navConfig = [
   //   icon: getIcon('eva:people-fill'),
   // },
   {
-    title: '퀴즈',
-    path: '/products',
-    icon: getIcon('ic:outline-quiz'),
-  },
-  {
     title: '이상형월드컵',
     path: '/Ideal',
     icon: getIcon('maki:racetrack'),
   },
+  {
+    title: '퀴즈',
+    path: '/Quiz',
+    icon: getIcon('ic:outline-quiz'),
+  },
+
   // {
   //   title: '로그인',
   //   path: '/login',
