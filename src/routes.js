@@ -34,7 +34,7 @@ export default function Router() {
         { path: 'Ideal/winner/:id', element: <FinalWinner />},
         { path: 'Ideal/ranks/:id', element: <Ranks />},
         { path: 'Quiz', element: <Quiz />},
-        { path: 'QuizGame', element: <QuizGame />}
+        { path: 'QuizGame/:id', element: <QuizGame />}
 
       ],
     },
