@@ -8,7 +8,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import {  faTrophy, faMedal, faFaceSadTear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import KakaoIcon from '../../../components/custom-icon/KakaoIcon'
+import KakaoIcon from '../../../components/custom-icon/KakaoIcon';
 import {sendKakaoShare, copyAddress, returnToIdealMain} from '../../../utils/speedDialActions'
 import Page from '../../../components/Page';
 

@@ -1,34 +1,16 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useSearchParams} from 'react-router-dom';
 import {Stack, Container, Typography, Button, Box, LinearProgress, Card, CardContent, Grid, CardActions } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import axios from  'axios';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import useEffect2 from '../../../hooks/useEffect2';
 import Page from '../../../components/Page';
+import SpeedDial2, {  useSpeedDialActionState } from '../../../components/SpeedDial2';
+import KakaoIcon from '../../../components/custom-icon/KakaoIcon';
+import {sendKakaoShare, copyAddress, returnToIdealMain, returnTo} from '../../../utils/speedDialActions';
 
-const example = {
-    title: "어느 나라 국기일까?",
-    description: "전세계에는 208개의 국가들이 있죠. 그들은 모두 국기를 가지고 있답니다. 여러분은 얼마나 많은 나라의 국기를 알고 있나요?",
-    like: 119,
-    click: 1231,
 
-    workbook: [
-        {
-            src: "https://cdn.pixabay.com/photo/2013/07/13/14/17/russia-162400_1280.png",
-            question: "어떤 나라의 국기일까요?",
-            example: [[1, "미국"], [2, "일본"], [3, "러시아"], [4, "벨기에"]],
-            answer: [3, "러시아"]
-
-        },
-        {
-            src: "https://cdn.pixabay.com/photo/2012/04/12/23/52/germany-31017_1280.png",
-            question: "어떤 나라의 국기일까요?",
-            example: [[1, "벨기에"], [2, "이탈리아"], [3, "독일"], [4, "대한민국"]],
-            answer: [3, "독일"]
-
-        }
-    ]
-}
 
 
 export default function QuizGame(){
@@ -37,11 +19,18 @@ export default function QuizGame(){
     const [questions, setQuestions] = useState({});
     const [picked, setPicked] = useState({});
     const [isStarted, setIsStarted] = useState(false);
+    const [isEnded, setIsEnded] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [answers, setAnswers] = useState([]);
+    const [actions, addActions] = useSpeedDialActionState();
 
     const currentStep = useRef(0);
-    console.log("category")
-    console.log(id);
+    const cntAnswer = useRef(0);
+
+
+    
+
+
     useEffect(()=>{
 
         const getGame = async()=>{
@@ -50,9 +39,38 @@ export default function QuizGame(){
         }
         getGame();
 
+        
     }, []);
     
     useEffect2(()=>{
+        const actionList = [
+            {
+                // icon: <KakaoIcon />,
+                // name: ""
+                icon: <KeyboardReturnIcon />,
+                name: '퀴즈 리스트로 가기',
+                action: returnTo,
+                params: {
+                            redirectPage: '/quiz'  
+                }
+            },
+            {
+                icon: <KakaoIcon />,
+                name: '카카오로 공유하기',
+                action: sendKakaoShare,
+                params: {
+                            contentTitle: questions.title,
+                            desc: `#퀴즈 #당신의상식 #낄낄시간 #${questions.title}`,
+                            imgSrc: "",
+                            url: window.location.href,
+                            redirectPage: '/quiz'
+                }
+            }
+        
+        ]
+    
+        addActions(actionList);
+
 
         const currentProgress = ( (currentStep.current + 1) / questions.workbook.length ) * 100;
         setProgress(currentProgress);
@@ -71,14 +89,23 @@ export default function QuizGame(){
         setPicked(questions.workbook[0])
         
     }
-    const goNext = (e) => {
+    const goNext = (answer) => {
+        
+        console.log(actions);
+
+
+        if (answer === picked.answer[0]) cntAnswer.current += 1;
+        setAnswers([
+            ...answers,
+            answer
+        ])
+        console.log(answer)
+
         if(currentStep.current + 1 >= questions.workbook.length){
-            alert("끝!");
+            setIsEnded(true);
         }else{
-            console.log(e.target)
             currentStep.current += 1;
             setPicked(questions.workbook[currentStep.current]);
-
         }
     }
 
@@ -92,37 +119,106 @@ export default function QuizGame(){
         <Page>
             <Container>
                 { isStarted ? 
-                  (
-                    <Grid container spacing={1}>
-                        <Grid item xs={12} md={6} >
+                    (
+                        <>
+                            {
+                                isEnded ? 
+                                (
+                                    <>
+                                    <Stack>
+                                        <Typography variant='h3'>
+                                            퀴즈 결과
+                                        </Typography>
+                                        {questions.workbook.length} 문제 중에 {cntAnswer.current} 문제 맞추셨습니다.
 
-                        <Stack sx={{marginBottom:{xs:"5px", md:"10px"}}}>
-                            <LinearProgress variant="determinate" value={progress} />
-                            
-                        </Stack>
-                        <Card>
-                            <CardMediaStyle style={{backgroundImage:`url(${picked.src})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
-                                {/* <background src={picked.src} alt="" style={{position:'absolute', top:'0', overflow:"hidden"}}/> */}
-                            </CardMediaStyle>
-                            <CardContent>
-                                <Typography variant={'h4'}>
-                                    {picked.question} ( {currentStep.current+1} / {questions.workbook.length} )
-                                </Typography>
-                                <Stack flexDirection="column" alignItems="start">
-                                    {picked.example.map((item)=>{
-                                        return(
-                                            <Button variant="outlined" key={item[0]} onClick={goNext} sx={{margin:{xs:'2px', md:'5px'}}}><Typography >{item[0]}. {item[1]}</Typography></Button> 
-                                        )
-                                    })}
-                                </Stack>
-                            </CardContent>
-                        </Card>
-                        </Grid>
-                    </Grid>
-                    
-                  )
-                  :
-                  (
+                                    </Stack>
+
+                                    <Stack style={{maxWidth:"600px"}}>
+
+                                        <Grid container spacing={1}>
+                                            {
+                                                questions.workbook.map((item, index)=>{
+                                                    return(
+                                                        <>
+                                                        <Grid item xs={12} md={12}>
+                                                        <Card>
+                                                            <CardMediaStyle style={{backgroundImage:`url(${item.src})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
+                                                                {/* <background src={picked.src} alt="" style={{position:'absolute', top:'0', overflow:"hidden"}}/> */}
+                                                            </CardMediaStyle>
+                                                            <CardContent>
+                                                                <Typography variant={'h4'}>
+                                                                    {picked.question}
+                                                                </Typography>
+                                                                <Stack flexDirection="column" alignItems="start">
+                                                                    <div>
+                                                                        { item.answer[0] === answers[index] ?
+                                                                        (
+                                                                            <Typography>결과 : 정답!</Typography>
+                                                                        )
+                                                                        :
+                                                                        (
+                                                                            <Typography>결과 : 오답!</Typography>
+                                                                        )
+                                                                    }
+                                                                    </div>
+                                                                    <Stack>
+                                                                        <Typography>
+                                                                            정답 : {item.answer[0]}. {item.answer[1]}
+                                                                        </Typography> 
+                                                                        <Typography>
+                                                                            당신의 선택 : {item.example[answers[index]-1][0]}. {item.example[answers[index]-1][1]}
+                                                                        </Typography>
+                                                                    </Stack>
+                                                                </Stack>
+                                                            </CardContent>
+                                                        </Card>
+                                                        
+                                                        </Grid>
+                                                        </>
+                                                    )
+                                                })
+                                            }
+                                        </Grid>
+                                    </Stack>
+                                    </>
+
+                                )
+                                :
+                                (
+
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={12} md={6} >
+
+                                        <Stack sx={{marginBottom:{xs:"5px", md:"10px"}}}>
+                                            <LinearProgress variant="determinate" value={progress} />
+                                            
+                                        </Stack>
+                                        <Card>
+                                            <CardMediaStyle style={{backgroundImage:`url(${picked.src})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
+                                                {/* <background src={picked.src} alt="" style={{position:'absolute', top:'0', overflow:"hidden"}}/> */}
+                                            </CardMediaStyle>
+                                            <CardContent>
+                                                <Typography variant={'h4'}>
+                                                    {picked.question} ( {currentStep.current+1} / {questions.workbook.length} )
+                                                </Typography>
+                                                <Stack flexDirection="column" alignItems="start">
+                                                    {picked.example.map((item)=>{
+                                                        return(
+                                                            <Button variant="outlined" key={item[0]} onClick={()=>goNext(item[0])} sx={{margin:{xs:'2px', md:'5px'}}}><Typography >{item[0]}. {item[1]}</Typography></Button> 
+                                                        )
+                                                    })}
+                                                </Stack>
+                                            </CardContent>
+                                        </Card>
+                                        </Grid>
+                                    </Grid>
+                                )  
+                            }
+                        </>
+                        
+                    )
+                    :
+                    (
                     
                     <Grid container xs={12} md={6}>
                         <Grid item>
@@ -134,6 +230,7 @@ export default function QuizGame(){
                                     <Typography>
                                         {questions.description}
                                     </Typography>
+
                                 </CardContent>
                                 <CardActions>
                                     <Button variant="outlined" onClick={goGame}>
@@ -143,12 +240,12 @@ export default function QuizGame(){
                             </Card>    
                         </Grid>
                     </Grid>
-                  )
+                    )
 
                 }
 
 
-         
+                <SpeedDial2 actions={actions}/>
             </Container>
         </Page>
 

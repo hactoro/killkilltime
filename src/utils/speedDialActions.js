@@ -1,4 +1,3 @@
-
 export function sendKakaoShare({contentTitle, desc, imgSrc, url}){
     if(window.Kakao){
         const kakao = window.Kakao;
@@ -39,3 +38,6 @@ export function returnToIdealMain({redirectPage}){
     
 }
 
+export function returnTo({redirectPage}){
+    window.location.href = `${window.location.origin}${redirectPage}`;
+}
