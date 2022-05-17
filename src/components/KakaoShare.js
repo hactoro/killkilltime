@@ -16,7 +16,6 @@ export default function KakaoIcon({contentTitle, imgSrc, url, desc}){
                 kakao.init(process.env.REACT_APP_KAKAO_KEY)
             }
             
-            console.log(url);
             kakao.Link.sendDefault({
                 // container: '#kakao-link-btn',
                 objectType: 'feed',

@@ -219,8 +219,9 @@ export default function IdelaVs(){
             const ret = await axios.get(`/admin/contents/race/?categoryId=${id}&limit=${startRound}`);
 
             console.log("hello ideal race")
+            // shuffle players
             raceResult.current = setRaceResult.init(ret.data.candidates);
-            setItems(ret.data.candidates);
+            setItems(ret.data.candidates.sort(()=>Math.random() - 0.5));
             setNextRound((startRound/2));
             
         }catch(err){
