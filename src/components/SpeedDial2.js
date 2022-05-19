@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ListItemAvatar, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material'
+import { ListItemAvatar, SpeedDial, SpeedDialAction, SpeedDialIcon, Snackbar } from '@mui/material'
 import { PropaneSharp } from '@mui/icons-material';
 
 export default function SpeedDial2({actions}){
@@ -8,6 +8,7 @@ export default function SpeedDial2({actions}){
     const [infoOpen, setInfoOpen] = useState(false);
     const [infoMessage, setInfoMessage] = useState();
     const [anchorEl, setAnchorEl] = useState(null);
+    
 
     const speedDialCloseHandle = () => {
         setOpen(false);
@@ -15,7 +16,11 @@ export default function SpeedDial2({actions}){
     const speedDialOpenHandle = () =>{
         setOpen(true);
     }
+    const snackBarCloseHandler = () => {
+        setInfoOpen(false);
+    }
     return(
+        <>
         <SpeedDial
             ariaLabel=""
             onClose={speedDialCloseHandle}
@@ -46,6 +51,15 @@ export default function SpeedDial2({actions}){
             }
 
         </SpeedDial>
+
+        <Snackbar
+        anchorOrigin={{vertical:'bottom',horizontal:'right'}}
+        open={infoOpen}
+        autoHideDuration={1500}
+        message={infoMessage}
+        onClose={snackBarCloseHandler}
+        />
+        </>
     )
 }
 

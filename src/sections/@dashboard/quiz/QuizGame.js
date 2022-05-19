@@ -4,9 +4,10 @@ import {Stack, Container, Typography, Button, Box, LinearProgress, Card, CardCon
 import {styled} from '@mui/material/styles';
 import axios from  'axios';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import HttpIcon from '@mui/icons-material/Http';
 import useEffect2 from '../../../hooks/useEffect2';
 import Page from '../../../components/Page';
-import SpeedDial2, {  useSpeedDialActionState } from '../../../components/SpeedDial2';
+import SpeedDial2, { useSpeedDialActionState } from '../../../components/SpeedDial2';
 import KakaoIcon from '../../../components/custom-icon/KakaoIcon';
 import {sendKakaoShare, copyAddress, returnToIdealMain, returnTo} from '../../../utils/speedDialActions';
 
@@ -22,14 +23,11 @@ export default function QuizGame(){
     const [isEnded, setIsEnded] = useState(false);
     const [progress, setProgress] = useState(0);
     const [answers, setAnswers] = useState([]);
-    const [actions, addActions] = useSpeedDialActionState();
+    const [actions, setActions ] = useSpeedDialActionState();
+
 
     const currentStep = useRef(0);
     const cntAnswer = useRef(0);
-
-
-    
-
 
     useEffect(()=>{
 
@@ -39,10 +37,10 @@ export default function QuizGame(){
         }
         getGame();
 
-        
     }, []);
     
     useEffect2(()=>{
+
         const actionList = [
             {
                 // icon: <KakaoIcon />,
@@ -65,13 +63,19 @@ export default function QuizGame(){
                             url: window.location.href,
                             redirectPage: '/quiz'
                 }
+            },
+            {
+                icon: <HttpIcon />,
+                name: 'url 복사',
+                action: copyAddress,
+                params: {
+                    url: window.location.href
+                }
             }
         
         ]
-    
-        addActions(actionList);
-
-
+        setActions(actionList)
+      
         const currentProgress = ( (currentStep.current + 1) / questions.workbook.length ) * 100;
         setProgress(currentProgress);
 
@@ -90,10 +94,7 @@ export default function QuizGame(){
         
     }
     const goNext = (answer) => {
-        
-        console.log(actions);
-
-
+   
         if (answer === picked.answer[0]) cntAnswer.current += 1;
         setAnswers([
             ...answers,
@@ -118,6 +119,7 @@ export default function QuizGame(){
 
         <Page>
             <Container>
+            
                 { isStarted ? 
                     (
                         <>
@@ -140,6 +142,7 @@ export default function QuizGame(){
                                                 questions.workbook.map((item, index)=>{
                                                     return(
                                                         <>
+                                                        
                                                         <Grid item xs={12} md={12}>
                                                         <Card>
                                                             <CardMediaStyle style={{backgroundImage:`url(${item.src})`, backgroundRepeat:"no-repeat", backgroundSize:"cover"}}>
@@ -245,7 +248,7 @@ export default function QuizGame(){
                 }
 
 
-                <SpeedDial2 actions={actions}/>
+<SpeedDial2 actions={actions}/>
             </Container>
         </Page>
 

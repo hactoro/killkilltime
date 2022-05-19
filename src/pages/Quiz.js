@@ -17,7 +17,6 @@ const CoverMediaStyle = styled('div')({
     position: 'absolute',
     width: '100%',
     objectFit: 'cover'
-
 })
 
 export default function Quiz(){
@@ -26,7 +25,6 @@ export default function Quiz(){
     const [quizList, setQuizList] = useState([]);
 
     const goQuiz = (id) => {
-        console.log(id);
         navigate(`/QuizGame/${id}`)
     }
 

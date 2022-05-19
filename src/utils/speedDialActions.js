@@ -30,7 +30,32 @@ export function sendKakaoShare({contentTitle, desc, imgSrc, url}){
 }
 
 export async function copyAddress({url}){
+    
+    if(typeof navigator.clipboard === 'undefined') {
+
+        const textArea = document.createElement("textarea");
+        textArea.value = url;
+        textArea.style.position="fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+    
+        try {
+            const successful = document.execCommand('copy');
+            const msg = successful ? 'successful' : 'unsuccessful';
+           
+        } catch (err) {
+            alert(err.message);
+        }
+    
+        document.body.removeChild(textArea)
+        
+        
+        return;
+    }
+
     await navigator.clipboard.writeText(url);
+
 }
 
 export function returnToIdealMain({redirectPage}){
